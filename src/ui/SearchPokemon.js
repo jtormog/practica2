@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { usePokemon } from '../manager/pokemonManager';
 
 export function SearchPokemon() {
-    const [nombrePokemon, setNombrePokemon] = useState('');
+    // Using useRef to prevent re-renders on each keystroke
+    const nombrePokemonRef = useRef('');
     const [buscarPokemon, setBuscarPokemon] = useState('');
     
     const handleSearch = () => {
-        setBuscarPokemon(nombrePokemon);
+        setBuscarPokemon(nombrePokemonRef.current);
+    };
+
+    // Handle input change without triggering re-renders
+    const handleInputChange = (e) => {
+        nombrePokemonRef.current = e.target.value;
     };
 
     return {
@@ -15,8 +21,8 @@ export function SearchPokemon() {
                 <input 
                     className="w-full px-4 py-2 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-400 transition-colors"
                     placeholder="Introduce un Pokémon"
-                    onChange={(e) => setNombrePokemon(e.target.value)}
-                    value={nombrePokemon}
+                    onChange={handleInputChange}
+                    defaultValue={nombrePokemonRef.current}
                 />
                 <button 
                     onClick={handleSearch}

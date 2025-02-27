@@ -3,6 +3,7 @@ import { SearchPokemon } from "./SearchPokemon"
 import { useState } from "react"
 import { usePokemon } from "../manager/pokemonManager"
 import { CatchPokemonCard } from "./CatchPokemonCard"
+import { CapturedPokemonList } from "./CapturedPokemonList"
 
 export function PokemonCard() {
     const [showCapturedList, setShowCapturedList] = useState(false);
@@ -37,6 +38,10 @@ export function PokemonCard() {
                     </button>
                 </div>
             </div>
+            
+            {showCapturedList && (
+                <CapturedPokemonList onClose={() => setShowCapturedList(false)} />
+            )}
         </div>
     )
 }
