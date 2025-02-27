@@ -1,15 +1,18 @@
-import { createContext } from 'react';
-import { useFetch } from './useFetch';
-import { GET_POKEMON_SPECIES_URL, GET_POKEMON_URL } from '../env_variables';
+import { createContext, useState } from 'react';
+import { usePokemon } from '../manager/pokemonManager';
 
 const PokemonContext = createContext();
 
-const Pokemon = await useFetch(GET_POKEMON_URL, id);
-const PokemonSpecies = await useFetch(GET_POKEMON_SPECIES_URL, id);
-
 export function PokemonProvider({ children }) {
+  const [pokemonList, setPokemonList] = useState([]);
+  const { pokemon, image, isShiny, gender, loading, error } = usePokemon('');
+  
+  const addPokemon = (pokemon, isShiny, gender, image) => {
+    setPokemonList(prevList => [...prevList, { pokemon, isShiny, gender, image }]);
+  };
+  
   return (
-    <PokemonContext.Provider value={{Pokemon, PokemonSpecies}}>
+    <PokemonContext.Provider value={{pokemon, image, isShiny, gender, loading, error, pokemonList, setPokemonList, addPokemon}}>
       {children}
     </PokemonContext.Provider>
   );

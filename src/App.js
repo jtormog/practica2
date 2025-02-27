@@ -1,12 +1,13 @@
 import './App.css';
-import PokemonContext from './context/PokemonContext';
+import { PokemonProvider } from './context/PokemonContext';
+import { PokemonCard } from './ui/PokemonCard';
 
 function App() {
   return (
     <>
-    <PokemonContext>
-      
-    </PokemonContext>
+    <PokemonProvider>
+      <PokemonCard/>
+    </PokemonProvider>
     </>
   );
 }
