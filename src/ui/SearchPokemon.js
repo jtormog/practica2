@@ -7,7 +7,12 @@ export function SearchPokemon() {
     const [buscarPokemon, setBuscarPokemon] = useState('');
     
     const handleSearch = () => {
-        setBuscarPokemon(nombrePokemonRef.current);
+        // Force state update even if the same Pokémon is searched again
+        // by setting to empty string first and then to the actual value
+        setBuscarPokemon('');
+        setTimeout(() => {
+            setBuscarPokemon(nombrePokemonRef.current);
+        }, 100); // Small delay to ensure state updates properly
     };
 
     // Handle input change without triggering re-renders

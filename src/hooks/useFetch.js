@@ -6,11 +6,9 @@ export function useFetch(URL, id) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Reset states when id changes
         setData(null);
         setError(null);
         
-        // Validate id
         if (!id || !id.trim()) {
             setError('');
             return;

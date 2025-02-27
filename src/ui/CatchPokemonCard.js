@@ -2,9 +2,9 @@ import { useContext } from 'react';
 import { useCatchPokemon } from '../manager/catchManager';
 import PokemonContext from '../context/PokemonContext';
 
-export function CatchPokemonCard() {
-    const { pokemon, isShiny, gender, image } = useContext(PokemonContext);
-    const catchRate = pokemon?.base_experience || 100; // Using base_experience as catch rate or default to 100
+export function CatchPokemonCard({ pokemon, isShiny, gender, image }) {
+    const { addPokemon } = useContext(PokemonContext);
+    const catchRate = pokemon?.capture_rate; // Using the correct capture_rate property
     const { isCaught, catchMessage, hasEscaped, attemptCatch, POKEBALLS } = useCatchPokemon(pokemon, catchRate, isShiny, gender, image);
 
     return (

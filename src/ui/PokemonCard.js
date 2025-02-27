@@ -26,7 +26,7 @@ export function PokemonCard() {
                         </div>
                         <p className="text-gray-600 font-medium">Altura: {(pokemon.height / 10)}m</p>
                         <p className="text-gray-600 font-medium">Peso: {(pokemon.weight / 10)}kg</p>
-                        <CatchPokemonCard />
+                        <CatchPokemonCard pokemon={pokemon} isShiny={isShiny} gender={gender} image={image} />
                     </div>
                 )}
                 <div className="flex justify-center">

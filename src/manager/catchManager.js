@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import PokemonContext from '../context/PokemonContext';
 
-export function useCatchPokemon(pokemon, catchRate, isShiny, gender, image) {
+export function useCatchPokemon(pokemon, isShiny, gender, image) {
     const [isCaught, setIsCaught] = useState(false);
     const [catchMessage, setCatchMessage] = useState('');
     const [hasEscaped, setHasEscaped] = useState(false);
@@ -21,14 +21,14 @@ export function useCatchPokemon(pokemon, catchRate, isShiny, gender, image) {
     };
 
     const calculateCatchProbability = (ballType) => {
-        if (!pokemon || !ballType || catchRate === null) return 0;
+        if (!pokemon || !ballType ||    pokemon.catch_rate === null) return 0;
 
         const ball = POKEBALLS[ballType];
         if (!ball) return 0;
 
         if (ball.name === 'Masterball') return 1;
 
-        const modifiedCatchRate = (catchRate * ball.multiplier) / 255;
+        const modifiedCatchRate = (pokemon.catch_rate * ball.multiplier) / 255;
         return Math.min(1, modifiedCatchRate);
     };
 
@@ -42,6 +42,9 @@ export function useCatchPokemon(pokemon, catchRate, isShiny, gender, image) {
             setCatchMessage('¡Primero busca un Pokémon!');
             return;
         }
+        
+        // Reset escape state to allow multiple catch attempts
+        setHasEscaped(false);
 
         const probability = calculateCatchProbability(ballType);
         const roll = Math.random();
@@ -58,7 +61,7 @@ export function useCatchPokemon(pokemon, catchRate, isShiny, gender, image) {
             addPokemon(pokemon, isShiny, gender, image);
         } else {
             setHasEscaped(true);
-            setCatchMessage(`¡${name} se ha escapado! Busca otro Pokémon para intentarlo de nuevo.`);
+            setCatchMessage(`¡${name} se ha escapado! Intenta con otra Pokeball.`);
         }
     };
     

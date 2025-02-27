@@ -12,6 +12,13 @@ export function usePokemon(pokemonId) {
     const { data: dataPokemonSpecies, loading: loadingSpecies, error: errorSpecies } = useFetch(GET_POKEMON_SPECIES_URL, pokemonId);
 
     useEffect(() => {
+        setIsShiny(false);
+        setGender('');
+        setImage('');
+        setPokemon(null);
+    }, [pokemonId]);
+
+    useEffect(() => {
         if (dataPokemonSpecies) {
             const genderRate = dataPokemonSpecies.gender_rate;
             if (genderRate === -1) {
@@ -22,7 +29,7 @@ export function usePokemon(pokemonId) {
                 setGender(randomNumber < femaleChance ? '♀' : '♂');
             }
         }
-    }, [dataPokemonSpecies]);
+    }, [dataPokemonSpecies, pokemonId]); // Added pokemonId as dependency to recalculate on re-search
 
     useEffect(() => {
         if (dataPokemon) {
@@ -32,7 +39,7 @@ export function usePokemon(pokemonId) {
             
             setIsShiny(generateRandomNumber === shinyNumber);
         }
-    }, [dataPokemon]);
+    }, [dataPokemon, pokemonId]); // Added pokemonId as dependency to recalculate on re-search
 
     useEffect(() => {
         if (dataPokemon) {
@@ -64,6 +71,7 @@ export function usePokemon(pokemonId) {
                 name: dataPokemon.name,
                 height: dataPokemon.height,
                 weight: dataPokemon.weight,
+                catch_rate: dataPokemonSpecies.capture_rate, // Added base_experience for catch rate
                 gender: gender,
                 isShiny: isShiny,
                 sprites: dataPokemon.sprites
