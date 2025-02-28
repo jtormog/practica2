@@ -1,13 +1,10 @@
-// Actions for the Pokemon reducer
 export const ADD_POKEMON = 'ADD_POKEMON';
 export const REMOVE_POKEMON = 'REMOVE_POKEMON';
 
-// Initial state for the Pokemon reducer
 export const initialState = {
   capturedPokemons: []
 };
 
-// Load state from localStorage if available
 export const loadState = () => {
   try {
     const storedPokemons = localStorage.getItem('capturedPokemons');
@@ -21,13 +18,12 @@ export const loadState = () => {
   }
 };
 
-// Pokemon reducer function
 export const pokemonReducer = (state, action) => {
   switch (action.type) {
     case ADD_POKEMON:
       const captureDate = new Date();
       const newPokemon = {
-        id: `${action.payload.pokemon.name}-${Date.now()}`, // Unique ID for each capture
+        id: `${action.payload.pokemon.name}-${Date.now()}`,
         name: action.payload.pokemon.name,
         height: action.payload.pokemon.height,
         weight: action.payload.pokemon.weight,

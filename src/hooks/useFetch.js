@@ -10,7 +10,6 @@ export function useFetch(URL, id) {
         setError(null);
         
         if (!id || !id.trim()) {
-            setError('');
             return;
         }
         

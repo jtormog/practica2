@@ -34,8 +34,11 @@ export function PokemonCard() {
         <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white py-12 px-4">
             <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden p-6 space-y-4 border-2 border-blue-200">
                 <SearchPokemon onSearch={handleSearch} />
-                {loading && <p className="text-center text-gray-600">Cargando...</p>}
-                {error && <p className="text-center text-red-500">{error}</p>}
+                {loading && !pokemon && (
+                    <div className="text-center py-8">
+                        <p className="text-xl font-medium text-gray-600">Cargando...</p>
+                    </div>
+                )}
                 {pokemon && (
                     <div className="text-center space-y-4">
                         <h1 className={clsx('text-2xl font-bold capitalize', { 'text-red-500': isShiny })}>

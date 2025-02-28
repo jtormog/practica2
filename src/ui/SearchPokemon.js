@@ -2,17 +2,13 @@ import { useRef, useState } from 'react';
 
 export function SearchPokemon({ onSearch }) {
     const pokemonRef = useRef(null);
-    const [currentPokemon, setCurrentPokemon] = useState('');
+    const [searchTimestamp, setSearchTimestamp] = useState(Date.now());
 
     const handleSearch = () => {
         const pokemonName = pokemonRef.current.value.toLowerCase();
-        if (pokemonName === currentPokemon) {
-            onSearch('');
-            setTimeout(() => onSearch(pokemonName), 0);
-        } else {
-            onSearch(pokemonName);
-        }
-        setCurrentPokemon(pokemonName);
+        //al intentar buscar dos veces al mismo pokemon la llamada a la API no se realiza, por lo que se añade un timestamp para que se realice la llamada
+        setSearchTimestamp(Date.now());
+        onSearch(pokemonName + `?t=${searchTimestamp}`);
     };
 
     return (

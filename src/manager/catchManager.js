@@ -37,13 +37,7 @@ export function useCatchPokemon(pokemon, catchRate, isShiny, gender, image) {
             setCatchMessage('¡Selecciona una Pokeball!');
             return;
         }
-
-        if (!pokemon) {
-            setCatchMessage('¡Primero busca un Pokémon!');
-            return;
-        }
         
-        // Reset escape state to allow multiple catch attempts
         setHasEscaped(false);
 
         const probability = calculateCatchProbability(ballType);
