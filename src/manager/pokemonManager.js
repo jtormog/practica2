@@ -86,17 +86,13 @@ export function usePokemon(pokemonId) {
                     sprites: dataPokemon.sprites
                 });
                 
-                // Update the processed ID reference
                 processedPokemonIdRef.current = pokemonId;
                 processingRef.current = false;
             }
         }
     }, [dataPokemon, dataPokemonSpecies, pokemonId]);
     
-    // This useEffect is no longer needed as we handle the processing flag in the main effect
-    // The reset is now handled in the first useEffect when pokemonId changes
     
-    // Add loading and error states from useFetch
     const { loading: pokemonLoading, error: pokemonError } = useFetch(GET_POKEMON_URL, pokemonId);
     const { loading: speciesLoading, error: speciesError } = useFetch(GET_POKEMON_SPECIES_URL, pokemonId);
     
