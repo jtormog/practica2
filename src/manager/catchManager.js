@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import PokemonContext from '../context/PokemonContext';
 
-export function useCatchPokemon(pokemon, isShiny, gender, image) {
+export function useCatchPokemon(pokemon, catchRate, isShiny, gender, image) {
     const [isCaught, setIsCaught] = useState(false);
     const [catchMessage, setCatchMessage] = useState('');
     const [hasEscaped, setHasEscaped] = useState(false);
@@ -11,7 +11,7 @@ export function useCatchPokemon(pokemon, isShiny, gender, image) {
         setHasEscaped(false);
         setIsCaught(false);
         setCatchMessage('');
-    }, [pokemon]);
+    }, [pokemon, isShiny, gender]); // Added isShiny and gender to reset state when these change
 
     const POKEBALLS = {
         POKEBALL: { name: 'Pokeball', multiplier: 1 },

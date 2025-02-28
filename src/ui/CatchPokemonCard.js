@@ -4,7 +4,7 @@ import PokemonContext from '../context/PokemonContext';
 
 export function CatchPokemonCard({ pokemon, isShiny, gender, image }) {
     const { addPokemon } = useContext(PokemonContext);
-    const catchRate = pokemon?.capture_rate; // Using the correct capture_rate property
+    const catchRate = pokemon?.catch_rate; // Using the correct catch_rate property
     const { isCaught, catchMessage, hasEscaped, attemptCatch, POKEBALLS } = useCatchPokemon(pokemon, catchRate, isShiny, gender, image);
 
     return (

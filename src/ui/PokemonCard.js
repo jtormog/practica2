@@ -1,19 +1,39 @@
 import clsx from "clsx"
 import { SearchPokemon } from "./SearchPokemon"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { usePokemon } from "../manager/pokemonManager"
 import { CatchPokemonCard } from "./CatchPokemonCard"
 import { CapturedPokemonList } from "./CapturedPokemonList"
 
 export function PokemonCard() {
     const [showCapturedList, setShowCapturedList] = useState(false);
-    const { searchComponent, buscarPokemon } = SearchPokemon();
+    const [buscarPokemon, setBuscarPokemon] = useState('');
     const { pokemon, image, isShiny, gender, loading, error } = usePokemon(buscarPokemon);
+    
+    // Using useRef to store Pokemon data when it changes
+    const pokemonRef = useRef(null);
+    const imageRef = useRef('');
+    const isShinyRef = useRef(false);
+    const genderRef = useRef('');
+    
+    // Update refs when Pokemon data changes
+    useEffect(() => {
+        if (pokemon) {
+            pokemonRef.current = pokemon;
+            imageRef.current = image;
+            isShinyRef.current = isShiny;
+            genderRef.current = gender;
+        }
+    }, [pokemon, image, isShiny, gender]);
+
+    const handleSearch = (searchTerm) => {
+        setBuscarPokemon(searchTerm);
+    };
     
     return (
         <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white py-12 px-4">
             <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden p-6 space-y-4 border-2 border-blue-200">
-                {searchComponent}
+                <SearchPokemon onSearch={handleSearch} />
                 {loading && <p className="text-center text-gray-600">Cargando...</p>}
                 {error && <p className="text-center text-red-500">{error}</p>}
                 {pokemon && (

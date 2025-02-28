@@ -7,6 +7,7 @@ export function usePokemon(pokemonId) {
     const [isShiny, setIsShiny] = useState(false);
     const [gender, setGender] = useState('');
     const [image, setImage] = useState('');
+    const [searchTimestamp, setSearchTimestamp] = useState(Date.now());
     
     const { data: dataPokemon, loading: loadingPokemon, error: errorPokemon } = useFetch(GET_POKEMON_URL, pokemonId);
     const { data: dataPokemonSpecies, loading: loadingSpecies, error: errorSpecies } = useFetch(GET_POKEMON_SPECIES_URL, pokemonId);
@@ -16,6 +17,7 @@ export function usePokemon(pokemonId) {
         setGender('');
         setImage('');
         setPokemon(null);
+        setSearchTimestamp(Date.now()); // Update timestamp on each search
     }, [pokemonId]);
 
     useEffect(() => {
@@ -29,7 +31,7 @@ export function usePokemon(pokemonId) {
                 setGender(randomNumber < femaleChance ? '♀' : '♂');
             }
         }
-    }, [dataPokemonSpecies, pokemonId]); // Added pokemonId as dependency to recalculate on re-search
+    }, [dataPokemonSpecies, pokemonId, searchTimestamp]); // Added searchTimestamp to force recalculation
 
     useEffect(() => {
         if (dataPokemon) {
@@ -39,7 +41,7 @@ export function usePokemon(pokemonId) {
             
             setIsShiny(generateRandomNumber === shinyNumber);
         }
-    }, [dataPokemon, pokemonId]); // Added pokemonId as dependency to recalculate on re-search
+    }, [dataPokemon, pokemonId, searchTimestamp]); // Added searchTimestamp to force recalculation
 
     useEffect(() => {
         if (dataPokemon) {
