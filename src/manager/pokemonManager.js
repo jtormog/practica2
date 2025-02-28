@@ -29,9 +29,7 @@ export function usePokemon(pokemonId) {
         }
     }, [pokemonId]);
 
-    // Use a single useEffect to process data when both API responses are available
     useEffect(() => {
-        // Only proceed if both data objects are available and we haven't processed this ID yet
         if (dataPokemon && dataPokemonSpecies && pokemonId && 
             !processingRef.current && 
             processedPokemonIdRef.current !== pokemonId) {
@@ -39,7 +37,6 @@ export function usePokemon(pokemonId) {
             const cleanPokemonId = pokemonId.split('?')[0];
             
             if (dataPokemon.name === cleanPokemonId || dataPokemon.name === pokemonId) {
-                // Set processing flag to prevent duplicate processing
                 processingRef.current = true;
                 
                 let newGender = '';
