@@ -29,11 +29,17 @@ export function usePokemon(pokemonId) {
         }
     }, [pokemonId]);
 
+    // Use a single useEffect to process data when both API responses are available
     useEffect(() => {
-        if (dataPokemon && dataPokemonSpecies && pokemonId) {
+        // Only proceed if both data objects are available and we haven't processed this ID yet
+        if (dataPokemon && dataPokemonSpecies && pokemonId && 
+            !processingRef.current && 
+            processedPokemonIdRef.current !== pokemonId) {
+            
             const cleanPokemonId = pokemonId.split('?')[0];
             
             if (dataPokemon.name === cleanPokemonId || dataPokemon.name === pokemonId) {
+                // Set processing flag to prevent duplicate processing
                 processingRef.current = true;
                 
                 let newGender = '';
@@ -83,18 +89,15 @@ export function usePokemon(pokemonId) {
                     sprites: dataPokemon.sprites
                 });
                 
+                // Update the processed ID reference
                 processedPokemonIdRef.current = pokemonId;
                 processingRef.current = false;
             }
         }
     }, [dataPokemon, dataPokemonSpecies, pokemonId]);
     
-    // Reset processing flag when pokemonId changes
-    useEffect(() => {
-        if (pokemonId !== processedPokemonIdRef.current) {
-            processingRef.current = false;
-        }
-    }, [pokemonId]);
+    // This useEffect is no longer needed as we handle the processing flag in the main effect
+    // The reset is now handled in the first useEffect when pokemonId changes
     
     // Add loading and error states from useFetch
     const { loading: pokemonLoading, error: pokemonError } = useFetch(GET_POKEMON_URL, pokemonId);

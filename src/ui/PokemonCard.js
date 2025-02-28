@@ -8,23 +8,7 @@ import { CapturedPokemonList } from "./CapturedPokemonList"
 export function PokemonCard() {
     const [showCapturedList, setShowCapturedList] = useState(false);
     const [buscarPokemon, setBuscarPokemon] = useState('');
-    const { pokemon, image, isShiny, gender, loading, error } = usePokemon(buscarPokemon);
-    
-    // Using useRef to store Pokemon data when it changes
-    const pokemonRef = useRef(null);
-    const imageRef = useRef('');
-    const isShinyRef = useRef(false);
-    const genderRef = useRef('');
-    
-    // Update refs when Pokemon data changes
-    useEffect(() => {
-        if (pokemon) {
-            pokemonRef.current = pokemon;
-            imageRef.current = image;
-            isShinyRef.current = isShiny;
-            genderRef.current = gender;
-        }
-    }, [pokemon, image, isShiny, gender]);
+    const { pokemon, image, isShiny, gender, loading} = usePokemon(buscarPokemon);
 
     const handleSearch = (searchTerm) => {
         setBuscarPokemon(searchTerm);
