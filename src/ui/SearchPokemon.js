@@ -6,7 +6,6 @@ export function SearchPokemon({ onSearch }) {
 
     const handleSearch = () => {
         const pokemonName = pokemonRef.current.value.toLowerCase();
-        // Force a new search even if it's the same Pokemon
         if (pokemonName === currentPokemon) {
             onSearch('');
             setTimeout(() => onSearch(pokemonName), 0);
